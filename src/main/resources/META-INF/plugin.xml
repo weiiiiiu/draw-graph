@@ -1,0 +1,83 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin url="https://plugins.jetbrains.com/plugin/21242-draw-graph">
+    <id>com.github.linwancen.drawgraph</id>
+    <name>Draw Graph</name>
+    <vendor email="weeiii@qq.com" url="https://github.com/weiiiiiu/draw-graph">ZHONG WEI</vendor>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends optional="true" config-file="java.xml">com.intellij.modules.java</depends>
+    <depends optional="true" config-file="kotlin.xml">org.jetbrains.kotlin</depends>
+    <depends optional="true" config-file="groovy.xml">org.intellij.groovy</depends>
+    <!--suppress PluginXmlValidity -->
+    <depends optional="true" config-file="scala.xml">org.intellij.scala</depends>
+    <depends optional="true" config-file="xml.xml">com.intellij.modules.xml</depends>
+    <depends optional="true" config-file="js.xml">JavaScript</depends>
+    <depends optional="true" config-file="php.xml">com.jetbrains.php</depends>
+    <depends optional="true" config-file="python.xml">com.intellij.modules.python</depends>
+    <depends optional="true" config-file="go.xml">org.jetbrains.plugins.go</depends>
+    <!-- old version -->
+    <depends optional="true" config-file="rust_old.xml">org.rust.lang</depends>
+    <!--suppress PluginXmlValidity -->
+    <depends optional="true" config-file="rust.xml">com.jetbrains.rust</depends>
+    <depends optional="true" config-file="ruby.xml">com.intellij.modules.ruby</depends>
+    <!--suppress PluginXmlValidity -->
+    <depends optional="true" config-file="c.xml">com.intellij.modules.clion</depends>
+    <!--suppress PluginXmlValidity -->
+    <depends optional="true" config-file="javafx.xml">com.intellij.javafx</depends>
+    <!--suppress PluginXmlValidity -->
+    <depends optional="true" config-file="javafxp.xml">org.jetbrains.plugins.javaFX</depends>
+
+    <projectListeners>
+        <listener class="com.github.linwancen.plugin.graph.listeners.TabListener"
+                  topic="com.intellij.openapi.fileEditor.FileEditorManagerListener"/>
+    </projectListeners>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="com.github.linwancen.plugin.graph.settings.DrawGraphAppState"/>
+        <projectService serviceImplementation="com.github.linwancen.plugin.graph.settings.DrawGraphProjectState"/>
+        <!-- https://jetbrains.design/intellij/resources/icons_list/ -->
+        <!--suppress PluginXmlValidity -->
+        <toolWindow id="Graph" secondary="false" icon="/META-INF/pluginIcon.svg" anchor="right"
+                    factoryClass="com.github.linwancen.plugin.graph.ui.GraphWindowFactory"/>
+    </extensions>
+
+    <extensionPoints>
+        <extensionPoint name="browser" dynamic="true" interface="com.github.linwancen.plugin.graph.ui.webview.extension.BrowserExtensionPoint"/>
+        <extensionPoint name="parser" dynamic="true" interface="com.github.linwancen.plugin.graph.parser.Parser"/>
+    </extensionPoints>
+
+    <extensions defaultExtensionNs="com.github.linwancen.drawgraph">
+        <browser implementation="com.github.linwancen.plugin.graph.ui.webview.extension.BrowserExtensionPointJcef"/>
+    </extensions>
+
+    <actions>
+        <action
+            id="com.github.linwancen.plugin.graph.action.FileMethodCallAction"
+            class="com.github.linwancen.plugin.graph.action.FileMethodCallAction"
+            icon="AllIcons.Hierarchy.Subtypes"
+            text="File Method Call Graph">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+        <action
+            id="com.github.linwancen.plugin.graph.action.MethodCallAction"
+            class="com.github.linwancen.plugin.graph.action.MethodCallAction"
+            icon="AllIcons.Hierarchy.Subtypes"
+            text="Method Call Graph">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action
+            id="com.github.linwancen.plugin.graph.action.MethodUsageAction"
+            class="com.github.linwancen.plugin.graph.action.MethodUsageAction"
+            icon="AllIcons.Hierarchy.Supertypes"
+            text="Method Usage Graph">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action
+            id="com.github.linwancen.plugin.graph.action.ElementAction"
+            class="com.github.linwancen.plugin.graph.action.ElementAction"
+            icon="AllIcons.FileTypes.Regexp"
+            text="Element Graph">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>
